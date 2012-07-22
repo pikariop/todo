@@ -1,6 +1,6 @@
 _welcome:
     pattern:  /
-    defaults: { _controller: OPTodoAppBundle:todoapp:index }
+    defaults: { _controller: OPTodoAppBundle:TodoApp:index }
 
 _assetic:
     resource: .
