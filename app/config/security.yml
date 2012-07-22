@@ -10,6 +10,7 @@ security:
         in_memory:
             users:
                 user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                user2:  { password: userpass2, roles: [ 'ROLE_USER' ] }
                 admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
     firewalls:
@@ -34,5 +35,6 @@ security:
             #    realm: "Secured Demo Area"
 
     access_control:
+         - { path: ^/todoapp, roles: ROLE_USER }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
