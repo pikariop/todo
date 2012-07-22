@@ -1,0 +1,24 @@
+OPTodoAppBundle_homepage:
+    pattern:  /todoapp/
+    defaults: { _controller: OPTodoAppBundle:TodoApp:index }
+
+OPTodoAppBundle_create:
+    pattern:  /todoapp/create/
+    defaults: { _controller: OPTodoAppBundle:TodoApp:create }
+
+OPTodoAppBundle_list:
+    pattern:  /todoapp/list/
+    defaults: { _controller: OPTodoAppBundle:TodoApp:list }
+    
+OPTodoAppBundle_delete:
+    pattern:  /todoapp/delete/{id}
+    defaults: { _controller: OPTodoAppBundle:TodoApp:delete }
+    
+OPTodoAppBundle_markComplete:
+    pattern:  /todoapp/markComplete/{id}
+    defaults: { _controller: OPTodoAppBundle:TodoApp:markComplete }
+    
+    
+OPTodoAppBundle_update:
+    pattern:  /todoapp/update/{id}
+    defaults: { _controller: OPTodoAppBundle:TodoApp:update }

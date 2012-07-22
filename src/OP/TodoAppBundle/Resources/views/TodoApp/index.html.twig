@@ -1,0 +1,127 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Todo app
+{% endblock %}
+
+{% block body %}
+	<h1>Todo app</h1>
+	
+	{% if form is defined %}
+		<div style="background-color: {% if updateID is empty %} #EEEEEE {% else %} #CCCCFF {% endif %}">
+		<div style="background-color:#DDDDDD; padding-left:6px">
+	{% if updateID is empty %}
+		<b>Create new</b>  
+	{% else %} 
+		<b>Update</b>
+	{% endif %}
+		</div>	
+		<form action="
+			{% if updateID is empty %}
+				{{ path('OPTodoAppBundle_create') }}
+			{% else %}
+				{{ path('OPTodoAppBundle_update', {'id':updateID}) }}
+			{% endif %} 
+				" method="post" {{ form_enctype(form) }}>
+	    	<table cellspacing='6'>
+				<tr>
+					<td><b>{{ form_label(form.text) }}</b></td>
+					<td><b>{{ form_label(form.deadline) }}</b></td>
+					<td><b>Actions</b></td>
+				</tr>	
+	    		<tr>
+					<td>
+						{{ form_errors(form.text) }}
+						{{ form_widget(form.text) }}
+					</td>
+					<td>
+						{{ form_errors(form.deadline) }}
+						{{ form_widget(form.deadline.date.day) }}.
+						{{ form_widget(form.deadline.date.month) }}.
+						{{ form_widget(form.deadline.date.year) }}&nbsp;
+						{{ form_widget(form.deadline.time.hour) }}:
+						{{ form_widget(form.deadline.time.minute) }}
+					</td>
+					<td>
+					{% if updateID is empty %} 
+						<input type="submit" value="Create"/>
+					{% else %} 
+						<input type="submit" value="Update"/>
+						<form action="{{ path('OPTodoAppBundle_list') }}"><input type="submit" value="Cancel" /></form>
+					{% endif %}
+						
+					</td>
+				</tr>
+			</table>
+	    	{{ form_rest(form) }}
+	    	
+		</form>
+	</div>
+	{% endif %}
+
+	<br />
+	<div style="background-color:#EEEEEE">
+	
+	<div style="background-color:#DDDDDD; padding-left:6px">
+	<b>Todo</b>
+	</div>
+	
+	{% if tasksTodo|length > 0 %}
+		<table cellspacing='6'>
+			<tr>
+				<td><b>Task</b></td>
+				<td><b>Added</b></td>
+				<td><b>Deadline</b></td>
+				<td colspan='3'><b>Actions</b></td>
+			</tr>
+		
+			{% for task in tasksTodo %}
+				<tr>
+					<td width='450'>{{task.text|nl2br}}</td>
+					<td>{{task.dateAdded|date("d.m.Y H:i")}}</td>
+					<td>{{task.deadline|date("d.m.Y H:i")}}</td>
+					<td><a href='{{ path('OPTodoAppBundle_markComplete', {'id': task.id}) }}'>mark as completed</a></td>
+					<td><a href='{{ path('OPTodoAppBundle_update', {'id': task.id}) }}'>update</a></td>
+					<td><a href='{{ path('OPTodoAppBundle_delete', {'id': task.id}) }}'>delete</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<p>No incomplete tasks.</p>
+	{% endif %}
+	</div>
+	
+	<br />
+	
+	<div style="background-color:#EEEEEE">
+
+
+	<div style="background-color:#DDDDDD; padding-left:6px">
+	<b>Completed tasks</b>
+	</div>
+
+	{% if tasksCompleted|length > 0 %}
+		<table cellspacing='6'>
+			<tr>
+				<td><b>Task</b></td>
+				<td><b>Added</b></td>
+				<td><b>Deadline</b></td>
+				<td><b>Completed</b></td>
+				<td><b>Actions</b></td>
+				
+			</tr>
+		
+			{% for task in tasksCompleted %}
+				<tr>
+					<td width='450'>{{ task.text }}</td>
+					<td>{{ task.dateAdded|date("d.m.Y H:i") }}</td>
+					<td>{{ task.deadline|date("d.m.Y H:i") }}</td>
+					<td>{{ task.dateCompleted|date("d.m.Y H:i") }}</td>
+					<td><a href='{{ path('OPTodoAppBundle_markComplete', {'id': task.id}) }}'>mark as incomplete</a></td>
+					<td><a href='{{ path('OPTodoAppBundle_delete', {'id': task.id}) }}'>delete</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+	</div>
+{% endblock %}
